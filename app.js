@@ -36,12 +36,21 @@ document.addEventListener('DOMContentLoaded', ()=>{
     const Tetrs = [lTetr,tTetr,sqTetr,iTetr]
 
     let currentPos = 4
-    let currentTetr = Tetrs[0][0]
+    let currentRot = 0
+    let random = Math.floor(Math.random()*Tetrs.length)
+    let currentTetr = Tetrs[random][currentRot]
 
     //draw tetrimino
     function draw(){
         currentTetr.forEach(index=> {
-            squares[currentPos+index]
+            squares[currentPos+index].classList.add('tetr')
+        })
+    }
+
+    //draw()
+    function undraw(){
+        currentTetr.forEach(index => {
+            squares[currentPos+index].classList.remove('tetr')
         })
     }
 })
