@@ -1,37 +1,37 @@
 document.addEventListener('DOMContentLoaded', ()=>{
-    const grid = document.querySelector('.grid')
-    let squares = Array.from(document.querySelectorAll('.grid div'))
-    const width = 10
-    const ScoreDisplay = document.querySelector('#score')
-    const StartBtn = document.querySelector('#start-btn')
+    const grid = document.querySelector('.grid');
+    let squares = Array.from(document.querySelectorAll('.grid div'));
+    const width = 10;
+    const ScoreDisplay = document.querySelector('#score');
+    const StartBtn = document.querySelector('#start-btn');
 
     const lTetr = [
         [1, width+1, width*2+1, 2],
         [width, width+1, width+2, width*2+2],
         [1, width+1, width*2+1, width*2],
         [width,width*2,width*2+1,width*2+2]
-    ]
+    ];
 
     const iTetr = [
         [1,width+1,width*2+1,width*3+1],
         [width,width+1,width+2,width+3],
         [1,width+1,width*2+1,width*3+1],
         [width,width+1,width+2,width+3]
-    ]
+    ];
 
     const sqTetr = [
         [0,1,width,width+1],
         [0,1,width,width+1],
         [0,1,width,width+1],
         [0,1,width,width+1]
-    ]
+    ];
 
     const tTetr = [
         [1,width,width+1,width+2],
         [1,width+1,width+2,width*2+1],
         [width,width+1,width+2,width*2+1],
         [1,width,width+1,width*2+1]
-    ]
+    ];
 
     const Tetrs = [lTetr,tTetr,sqTetr,iTetr]
 
@@ -66,10 +66,28 @@ document.addEventListener('DOMContentLoaded', ()=>{
             
             random = Math.floor(Math.random()*Tetrs.length)
             currentTetr = Tetrs[random][currentRot]
-            let currentPos = 4
+            currentPos = 4
             draw()
         }
     }
 
-    timerID = setInterval(moveDown, 1000)
+    function moveLeft(){
+        undraw()
+        let isAtLeftEdge = currentTetr.some(index => (currentPos + index ) % 10 === 0)
+        if(!isAtLeftEdge) currentPos -=1
+        if(currentTetr.some(index => squares[currentPos+index].classList.contains('taken'))){
+            currentPos +=1
+        }
+
+        draw()
+    }
+
+    function control(e){
+        if(e.keyCode === 37) {
+            moveLeft()
+        }
+    }
+
+    timerID = setInterval(moveDown, 1000);
+    document.addEventListener('keyup', control)
 })
