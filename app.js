@@ -47,10 +47,29 @@ document.addEventListener('DOMContentLoaded', ()=>{
         })
     }
 
-    //draw()
     function undraw(){
         currentTetr.forEach(index => {
             squares[currentPos+index].classList.remove('tetr')
         })
     }
+
+    function moveDown() {
+        undraw()
+        currentPos += width
+        draw()
+        freeze()
+    }
+
+    function freeze(){
+        if(currentTetr.some(index => squares[currentPos + index + width].classList.contains('taken'))) {
+            currentTetr.forEach(index => squares[currentPos + index].classList.add('taken'))
+            
+            random = Math.floor(Math.random()*Tetrs.length)
+            currentTetr = Tetrs[random][currentRot]
+            let currentPos = 4
+            draw()
+        }
+    }
+
+    timerID = setInterval(moveDown, 1000)
 })
